@@ -37,7 +37,7 @@ The data used for this analysis is from the [FitBit Fitness Tracker Data](https:
 2) imported all data into BigQuery SQL
 
 
-```
+```SQL
 #Processing data: Ran the following script on Bigquery to clean and process the data to be ready for analysis, after importing the CSV-format data onto bigquery. 
 SELECT
 COUNT(DISTINCT Id), COUNT(DISTINCT ActivityDate) FROM Bellabeat.daily_activity; 
@@ -259,6 +259,15 @@ DROP COLUMN Fat;
 
 #With this, I was happy that the data was clean and processed. ```
 
+
+
+
+
+
+
+
+
+
 **ANALYSIS**
 
 
@@ -294,7 +303,7 @@ From the above analysis of the mean values of each measured property, there are 
 ```very = round(1.5/5.49 * 100,2) #very active rate
 mod = round(0.57/5.49 * 100,2) #moderately active rate
 light = round(3.34/5.49 * 100,2) #lightly active rate
-print("very active is", very,"%," " moderately active is", mod, "%,", " and lightly active is", light, "%, in terms of steps/kilometers.")```
+print("very active is", very,"%," " moderately active is", mod, "%,", " and lightly active is", light, "%, in terms of steps/kilometers.") ```
 
 * When we look at the data below of the time that the device user is not sedentary, about 85% is spent being lightly active. Very active is only 10%, or about 21 minutes per day. [Each week](https://www.cdc.gov/physicalactivity/basics/adults/index.htm) adults need 150 minutes of moderate-intensity physical activity, or about 30 mins per day as a minimum. This means that the device users are meeting the minimum requirements when considering the "very active" and "moderately active" time. This could always be improved through reminders and suggestions to the Bellabeat device user, however it shows that the users of smart devices are generally fairly active.
 
