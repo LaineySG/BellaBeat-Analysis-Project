@@ -34,7 +34,8 @@ The data used for this analysis is from the [FitBit Fitness Tracker Data](https:
 
 1) Used left() function in excel to keep only date from sleepDay_merged.csv, weightLogInfo_merged, heartrate_seconds_merged, hourlyCalories_merged, hourlyIntensities_merged, hourlySteps_merged as the AM/PM and time confused bigquery data import
 
-2) imported all data into BigQuery SQL
+2) imported all data into BigQuery SQL             
+
 
 
 ```SQL
@@ -257,11 +258,12 @@ ALTER TABLE Bellabeat.daily_weight_log
 DROP COLUMN Fat;
 #>>> Result: This statement altered the table named daily_weight_log.
 
-#With this, I was happy that the data was clean and processed. ```
+#With this, I was happy that the data was clean and processed. 
+```
 
 
 
-
+        
 
 
 
@@ -271,7 +273,8 @@ DROP COLUMN Fat;
 **ANALYSIS**
 
 
-```with Activity AS (select * from Bellabeat.daily_activity
+```SQL
+with Activity AS (select * from Bellabeat.daily_activity
 ORDER BY ActivityDate DESC)
 
 SELECT * FROM Activity AS activity
@@ -288,7 +291,8 @@ ROUND(AVG(SedentaryActiveDistance),2) as SedentaryActiveDistance, ROUND(AVG(Very
 ROUND(AVG(LightlyActiveMinutes),2) as LightlyActiveMinutes, ROUND(AVG(SedentaryMinutes),2) as SedentaryMinutes,
 ROUND(AVG(TotalSteps),2) as TotalSteps, ROUND(AVG(TotalDistance),2) as TotalDistance, ROUND(AVG(Calories),2) as Calories
 FROM Bellabeat.daily_activity
-#>>> Result: See below```
+#>>> Result: See below
+```
 
 ![image](https://user-images.githubusercontent.com/106799436/171965640-3038ca6e-e5bd-48c8-b073-bf3e62f5f098.png)
 
@@ -300,40 +304,49 @@ From the above analysis of the mean values of each measured property, there are 
 
 * As shown in the python script below, 61% of activity is not very active and 27% is very active. 27% very active is quite good, but it would be better if more of the lightly active rate could be moderately active, as moderately active activity makes up only 10% of steps. The Bellabeat device could suggest things such as jogging instead of walking or taking the stairs in buildings to have more moderate/very active steps and less lightly active steps.
 
-```very = round(1.5/5.49 * 100,2) #very active rate
+```python
+very = round(1.5/5.49 * 100,2) #very active rate
 mod = round(0.57/5.49 * 100,2) #moderately active rate
 light = round(3.34/5.49 * 100,2) #lightly active rate
-print("very active is", very,"%," " moderately active is", mod, "%,", " and lightly active is", light, "%, in terms of steps/kilometers.") ```
+print("very active is", very,"%," " moderately active is", mod, "%,", " and lightly active is", light, "%, in terms of steps/kilometers.") 
+```
 
 * When we look at the data below of the time that the device user is not sedentary, about 85% is spent being lightly active. Very active is only 10%, or about 21 minutes per day. [Each week](https://www.cdc.gov/physicalactivity/basics/adults/index.htm) adults need 150 minutes of moderate-intensity physical activity, or about 30 mins per day as a minimum. This means that the device users are meeting the minimum requirements when considering the "very active" and "moderately active" time. This could always be improved through reminders and suggestions to the Bellabeat device user, however it shows that the users of smart devices are generally fairly active.
 
-```very = round(21.16/(21.16+13.56+192.81) * 100,2) #very active rate, ignoring sedentary minutes
+```python
+very = round(21.16/(21.16+13.56+192.81) * 100,2) #very active rate, ignoring sedentary minutes
 mod = round(13.56/(21.16+13.56+192.81) * 100,2) #moderately active rate, ignoring sedentary minutes
 light = round(192.81/(21.16+13.56+192.81) * 100,2) #lightly active rate, ignoring sedentary minutes
-print("very active is", very,"%," " moderately active is", mod, "%,", " and lightly active is", light, "%, in terms of minutes of exercise.")```
+print("very active is", very,"%," " moderately active is", mod, "%,", " and lightly active is", light, "%, in terms of minutes of exercise.")
+```
 
 * The final observation from this data is that the average daily calories is 2300 per day. [Recommended daily calorie intakes](https://www.medicalnewstoday.com/articles/245588#_noHeaderPrefixedContent) in the US are around 2,500 for men and 2,000 for women. As the data doesn't specify the sex of the participants, if we assume them to be about 50% male and 50% female then this number seems spot on. The Bellabeat device could offer dietary assistance such as calorie tracking for users, especially those with weight gain/loss goals. 
 
-```SELECT MAX(Calories) FROM Bellabeat.daily_activity
+```SQL
+SELECT MAX(Calories) FROM Bellabeat.daily_activity
 #>>> Results: 4900
 SELECT Calories FROM Bellabeat.daily_activity ORDER BY Calories DESC
-#>>> Results shown below```
+#>>> Results shown below
+```
 
 ![image](https://user-images.githubusercontent.com/106799436/171965973-6b944f98-a28b-4435-9c07-545c686eb576.png)
 
 Due to the number of extremely high calories I decided to dive further into this. I ran the below function to determine if there was an explanation for the high caloric intakes based on high user activity on a given day.
 
-```SELECT AVG(VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) AS AvgMins FROM Bellabeat.daily_activity;
+```SQL
+SELECT AVG(VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) AS AvgMins FROM Bellabeat.daily_activity;
 #>>> Results: 227.54 mins (This is the average active minutes of all people.)
 WITH Summins AS (select (VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) AS summins, Calories from Bellabeat.daily_activity)
 SELECT AVG(Summins.summins) as Avgmins  FROM Summins WHERE Calories > 3000;
-#>>> Results: 309.75816993464059 (This is the average active minutes of people who consumed >3000 calories on a given day.)```
+#>>> Results: 309.75816993464059 (This is the average active minutes of people who consumed >3000 calories on a given day.)
+```
 
 I also ran this script for calories under 1200, and found an average of 32 mins of activity vs 230 minutes for the average person eating ~2300 calories per day. 32 minutes of activity is a fairly sedentary lifestyle but under 1200 calories is still unlikely to make up the difference in active minutes. I believe that this, as well as the information learned from those eating over 3000 calories per day highlights the usefulness to dietary assistance, tips, and tracking using Bellabeat products. 
 
 Next I looked at the sleep patterns of device users.
 
-```SELECT ROUND(AVG(TotalMinutesAsleep),2) AS AvgTotalMinutesAsleep, ROUND(AVG(TotalTimeInBed),2) AS AvgTotalTimeInBed FROM Bellabeat.daily_sleep;
+```SQL
+SELECT ROUND(AVG(TotalMinutesAsleep),2) AS AvgTotalMinutesAsleep, ROUND(AVG(TotalTimeInBed),2) AS AvgTotalTimeInBed FROM Bellabeat.daily_sleep;
 #>>> Results: AvgTotalMinutesAsleep: 419.17 (7 hours per night)
 #>>> Results: AvgTotalTimeInBed: 458.48 (38 mins)
 
@@ -346,11 +359,13 @@ SELECT AVG(TotalTimeInBed) FROM Bellabeat.daily_sleep WHERE TotalSleepRecords > 
 #>>> Results: 512 (8.5 hours of sleep for those who slept more than once, or napped during the day) 
 
 SELECT AVG(TotalTimeInBed - TotalMinutesAsleep) AS SleepDiff FROM Bellabeat.daily_sleep;
-#>>> Results: 39.30 mins (Average time taken to fall asleep + get out of bed in the morning.)```
+#>>> Results: 39.30 mins (Average time taken to fall asleep + get out of bed in the morning.)
+```
 
 The above data shows that the average device user is getting 7 hours per night of sleep. That is lower than ideal, as 45% of tracked sleeps are under the [7 hour recommended healthy sleep minimum](https://www.sleepfoundation.org/how-sleep-works/how-much-sleep-do-we-really-need#:~:text=National%20Sleep%20Foundation%20guidelines1,to%208%20hours%20per%20night.). The Bellabeat device can assist with this through reminders to set a reasonable time to go to bed each night to ensure that they are getting a reasonable amount of sleep each night, preferably between 7 and 9 hours. Another thing to note is that users who have more than one sleep record got more sleep than users who only slept once. This could indicate that napping leads to more sleep, and could be a healthy recommendation if possible for the user. It could also be that these users are waking up in the middle of the night and sleeping longer to make up for it.
 
-```SELECT ROUND(AVG(BMI),2) FROM Bellabeat.daily_weight_log;
+```SQL
+SELECT ROUND(AVG(BMI),2) FROM Bellabeat.daily_weight_log;
 #>>> Results: 25.19 (Average BMI)
 
 SELECT COUNT(*) FROM Bellabeat.daily_weight_log WHERE BMI > 24.99;
@@ -360,7 +375,8 @@ SELECT COUNT(*) FROM Bellabeat.daily_weight_log WHERE BMI < 18.5;
 #>>> 0
 
 SELECT COUNT(*) FROM Bellabeat.daily_weight_log;
-#>>> 67```
+#>>> 67
+```
 
 [A healthy BMI range is between 18.5 and 24.9.](https://www.nhs.uk/common-health-questions/lifestyle/what-is-the-body-mass-index-bmi/#:~:text=BMI%20ranges&text=below%2018.5%20%E2%80%93%20you're%20in,re%20in%20the%20obese%20range) The average BMI of the participants in this data is 25.19, which is slightly higher than the healthy range. 49% of participants measured over 24.99 BMI, and zero measured under 18.5. This shows that it is best for the Bellabeat app to focus heavily on weight loss. 
 
@@ -420,34 +436,3 @@ Throughout this project we have seen that there are many ways for Bellabeat to g
 * Users intensity is at it's highest around lunchtime and 6 or 7 in the evening, presumably after getting home from work. Bellabeat should capitalize on this trend by reminding users to take advantage of this time for exercise. 
 
 * The Bellabeat app should focus any weight-loss reminders around lunchtime and between 5 and 7 PM when people are eating and exercising.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
