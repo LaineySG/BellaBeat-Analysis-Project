@@ -340,6 +340,15 @@ WITH Summins AS (select (VeryActiveMinutes + FairlyActiveMinutes + LightlyActive
 SELECT AVG(Summins.summins) as Avgmins  FROM Summins WHERE Calories > 3000;
 #>>> Results: 309.75816993464059 (This is the average active minutes of people who consumed >3000 calories on a given day.)
 ```
+As shown above, those eating calories greater than 3000 often were only doing about 80 mins of extra activity in a given day, which would not come close to accounting for the additional calories. 
+
+```SQL
+SELECT AVG(VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) AS AvgMins FROM Bellabeat.daily_activity;
+
+WITH Summins AS (select (VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) AS summins, Calories from Bellabeat.daily_activity)
+SELECT AVG(Summins.summins) as Avgmins  FROM Summins WHERE Calories < 1200;
+#>>> Results: 32.77 minutes (This is the average active minutes of people who consumed <1200 calories on a given day.)
+```
 
 I also ran this script for calories under 1200, and found an average of 32 mins of activity vs 230 minutes for the average person eating ~2300 calories per day. 32 minutes of activity is a fairly sedentary lifestyle but under 1200 calories is still unlikely to make up the difference in active minutes. I believe that this, as well as the information learned from those eating over 3000 calories per day highlights the usefulness to dietary assistance, tips, and tracking using Bellabeat products. 
 
