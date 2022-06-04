@@ -391,30 +391,31 @@ SELECT COUNT(*) FROM Bellabeat.daily_weight_log;
 
 ![image](https://user-images.githubusercontent.com/106799436/171979138-f851db88-5140-432b-8c00-cd1430684979.png)
 
-I entered the data into Tableau and joined it by ID and Date to do some further analysis. I started with the weight and time data that I was just looking at. Most of the data is from manual reports rather than automated reports. Of the data we have, 3 people gained weight and 2 people lost weight. Unfortunately this isn't a lot of data to go off of, as only 5 users entered more than one data point. It does corroborate the point that weight loss should be the focus of the Bellabeat devices. 
+I entered the data into Tableau and joined it by ID and Date to do some further analysis. I started with the weight and time data that I was just looking at. Most of the data is from user reports rather than automated reports from the device. Of the data we have, 3 people gained weight and 2 people lost weight. Unfortunately this isn't a lot of data to go off of, as only 5 users entered more than one data point. It does corroborate the point that weight loss should be the focus of the Bellabeat devices. 
 
-![image](https://user-images.githubusercontent.com/106799436/171979203-c1153382-5ed7-4716-a04b-bb835b690819.png)
+![image](https://user-images.githubusercontent.com/106799436/171980412-e8c4d746-af29-4b1f-8bbb-ea25359375d1.png)
 
+As seen above, only on Sundays and Wednesdays do users get over 8 hours of sleep on average. It would be beneficial for the device to send reminders to users on other weekdays to bring that higher, and encourage users to go to bed earlier in the evening. As previously stated, even if the average is 7 hours, that means that half of the users are likely to be below 7 hours of sleep per night assuming realistic levels of variety in the data.
 
-As seen above, only on Saturdays, Sundays, and Wednesdays do users get over 8 hours of sleep on average. It would be beneficial for the device to send reminders to users on other weekdays to bring that higher, and encourage users to go to bed earlier in the evening. As previously stated, even if the average is 7 hours, that means that half of the users are likely to be below 7 hours of sleep per night assuming realistic levels of variety in the data.
-
-![image](https://user-images.githubusercontent.com/106799436/171979209-1e50251e-2c51-4371-9929-f7b3bdd8720e.png)
+![image](https://user-images.githubusercontent.com/106799436/171980433-7d110e93-e0f6-4681-9fd7-6ffc14195c35.png)
 
 The average user is getting an extremely variable amount of calories. Ideally the daily calories would be closer to the grey band, between 2000 and 2500 calories depending on size and gender of the user. The Bellabeat app could assist with caloric tracking to ensure that users are able to keep to a more stable and healthy caloric range.
 
-![image](https://user-images.githubusercontent.com/106799436/171979250-231d97da-5059-4354-aa98-9803b06afa39.png)
+![image](https://user-images.githubusercontent.com/106799436/171980460-5337e6cf-1602-47ab-8142-977405481b45.png)
+
 
 According to the above graph, most steps take place around lunch, and presumably after work between 5 and 7 PM. The Bellabeat software could remind users to try to put in some steps either before work, or later in the evening when there are lulls in activity. 
 
-![image](https://user-images.githubusercontent.com/106799436/171979277-d71192d4-8eb0-425a-93e6-2f4fe7c1a444.png)
+![image](https://user-images.githubusercontent.com/106799436/171980612-eda98221-ab66-4457-82b1-7ac319b3d059.png)
 
 As shown above, there are days with a high rate of sedentary minutes as well as high average calorie intake, such as Saturdays and Tuesdays. Friday also has a higher caloric rate with higher sedentary minutes. The Bellabeat app could assist the user in reminding them to balance their caloric intake and their activity. A higher activity rate means a higher caloric requirement and vice versa. 
 
-![image](https://user-images.githubusercontent.com/106799436/171979330-ee22bb7c-664c-43e8-92fb-74e511f5f67a.png)
+![image](https://user-images.githubusercontent.com/106799436/171980503-7ca18502-5ea8-4d92-8a81-6ab3e79d597c.png)
+
 
 Users intensity is at it's highest around lunchtime and 6 or 7 in the evening, presumably after getting home from work. Bellabeat can capitalize on this trend by reminding users to take advantage of this time for exercise. 
 
-![image](https://user-images.githubusercontent.com/106799436/171979389-47abb2d0-caab-4ad3-8ea6-1a0a4ee907c6.png)
+![image](https://user-images.githubusercontent.com/106799436/171980515-6bea392a-3f3b-428a-b0a8-9962c21af0fc.png)
 
 Most calories are consumed around lunch and between 5 and 7 PM. This coincides with the highest intensity periods, showing that people tend to be eating and exercising primarily around these time periods. It would be helpful for the Bellabeat app to focus any weight-loss reminders around these times when people are eating or exercising. 
 
